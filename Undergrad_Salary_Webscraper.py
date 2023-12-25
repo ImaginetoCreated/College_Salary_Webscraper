@@ -1,9 +1,15 @@
+import csv
 import pandas as pd
 from selenium import webdriver
 from selenium.webdriver.chrome.service import Service as ChromeService
 from webdriver_manager.chrome import ChromeDriverManager
 from selenium.webdriver.common.by import By
 import time
+import os
+from directory import FilePath
+
+path = FilePath()
+path.change_working_directory(__file__)
 
 # See https://www.selenium.dev/documentation/webdriver/browsers/chrome/
 # See https://chromedriver.chromium.org/capabilities#h.p_ID_102 for a list of options
@@ -69,14 +75,19 @@ for row in table_rows:
         for key,value in data.items():
             if header_name == key:
                 value.append(cell_value)
-
+        # increase cell incremen
+        value_num += 1
         # print(f'header name: {header_name}')
         # print(f'cell value = {cell_value}')
-        # increase cell increment
-        value_num += 1
+    csv_data.append(row_list)
 
-print(data)
+print(csv_data)
 
+with open('college_program_salary.csv','w',newline='') as file:
+    writer = csv.writer(file)
+    writer.writerows(csv_data)
+    # for row in csv_data:
+    #     writer.writerow()
 
 # Close driver
 driver.quit()
