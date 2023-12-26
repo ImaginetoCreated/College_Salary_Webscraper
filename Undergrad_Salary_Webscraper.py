@@ -6,7 +6,6 @@ from selenium.webdriver.chrome.service import Service as ChromeService
 from webdriver_manager.chrome import ChromeDriverManager
 from selenium.webdriver.common.by import By
 import time
-import os
 from directory import FilePath
 
 path = FilePath()
@@ -30,12 +29,12 @@ class Webscraper():
     def __init__(self):
         self.driver = driver
     def next_page(self):
-        time.sleep(5)
+        # time.sleep(5)
         next_button = self.driver.find_element(By.CSS_SELECTOR,"a[class='pagination__btn pagination__next-btn']")
         ActionChains(driver) \
             .click(next_button) \
             .perform()
-        time.sleep(10)
+        time.sleep(5)
 
 # Todo 3 - create an empty dictionary for json and an empty list for csv
 # creating a dictionary
@@ -53,7 +52,7 @@ col_header_list = [i.text for i in col_headers]
 # Insert the headers into the csv_data list
 csv_data.append(col_header_list)
 
-# Todo - Create a key-value pair for each column name with an empty list (JSON)
+# Todo 5 - Create a key-value pair for each column name with an empty list (JSON)
 # create initial increment values (i is dynamic | value_num is cell specific)
 i = 0
 value_num = 0
@@ -101,10 +100,8 @@ while table_status:
                     value.append(cell_value)
             # increase cell incremen
             value_num += 1
-            # print(f'header name: {header_name}')
-            # print(f'cell value = {cell_value}')
+        # append row_list to csv_data list
         csv_data.append(row_list)
-    print(csv_data)
     # Todo - Select next page, if error then no more pages and exit while loop
     try:
         scraper.next_page()
@@ -121,5 +118,3 @@ with open('college_program_salary.csv','w',newline='') as file:
 # Todo - Ensure Driver closes when finished writing all data to csv file
 # Close driver
 driver.quit()
-
-

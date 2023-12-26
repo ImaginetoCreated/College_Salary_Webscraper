@@ -6,7 +6,6 @@ College Salary Data.ipynb
 .vscode
 venv/
 venv
-test.py
 directory.py
 
 ### Also any macOS specific files
