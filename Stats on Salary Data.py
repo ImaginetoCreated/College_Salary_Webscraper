@@ -53,3 +53,10 @@ row = df.loc[id]
 print('\n\nReturn an entire row using single square bracket\n',row)
 
 # Todo - Sorting
+# Column Expressions can be used with pandas df - example a simple substraction operator b/w two columns
+difference = df['Mid-Career 90th Percentile Salary'] - df['Mid-Career 10th Percentile Salary']
+print('\n\nNew df showing difference b/w mid-career 90 percentile salary and 10th percentile salary\n'\
+    ,difference)
+# Pandas df also have a .subtract() method. A new pandas df is the output
+difference = df['Mid-Career 90th Percentile Salary'].subtract(df['Mid-Career 10th Percentile Salary'])
+print('\n\nSame output as above. Difference between 10th and 90th percentile mid-career salaries:\n',difference)
