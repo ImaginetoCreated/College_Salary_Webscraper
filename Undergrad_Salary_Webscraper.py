@@ -91,8 +91,15 @@ while table_status:
         for item in row_values:
             if value_num > (col_count - 1):
                 value_num = 0
-            header_name = col_header_list[value_num] # json specific
+            header_name = col_header_list[value_num]
             cell_value = item.find_element(By.CSS_SELECTOR, "span[class='data-table__value']").text
+            # Todo - Type format col 0 as int, 3-4 as float (money), and 5 as float (percent)
+            if value_num == 0:
+                cell_value = int(cell_value)
+            elif value_num not in [1, 2, 5]:
+                cell_value = float(cell_value.replace('$','').replace('-','0').replace(',',''))
+            elif col_header_list[value_num] == 5:
+                cell_value = float(cell_value.replace('-','').replace('%',''))/100
             # add cell value into row_list (CSV table - individual cell)
             row_list.append(cell_value)
             for key,value in data.items():
