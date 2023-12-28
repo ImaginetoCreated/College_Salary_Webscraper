@@ -7,6 +7,8 @@ from webdriver_manager.chrome import ChromeDriverManager
 from selenium.webdriver.common.by import By
 import time
 from directory import FilePath
+import re
+
 
 path = FilePath()
 path.change_working_directory(__file__)
@@ -93,6 +95,14 @@ while table_status:
                 value_num = 0
             header_name = col_header_list[value_num] # json specific
             cell_value = item.find_element(By.CSS_SELECTOR, "span[class='data-table__value']").text
+            # Todo - DYNAMIC Type format col 0 as int, 3-4 as float (money), and 5 as float (percent)
+            if cell_value.find('$') != -1:
+                cell_value = float(cell_value.replace('$', '').replace(',', ''))
+            elif cell_value.find('%') != -1:  # percent
+                cell_value = float(cell_value.replace('%', '')) / 100
+            elif re.search('[A-Za-z]', cell_value) == None \
+                    and re.search('[-]', cell_value):  # if nulls present in non-string columns, replace with 0
+                cell_value = float(cell_value.replace('-', '0'))
             # add cell value into row_list (CSV table - individual cell)
             row_list.append(cell_value)
             for key,value in data.items():
